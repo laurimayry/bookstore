@@ -16,6 +16,8 @@
 		    <th>Action</th> 
 		    
 		    
+		    
+		    
 		</tr>  
     	<tr th:each = "book : ${books}" >
     		<td th:text="${book.author}" ></td>
@@ -24,6 +26,8 @@
     		<td th:text="${book.publicationYear}"></td>
     		<td>
             <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
+			<a th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
+			
         </td>
     		
     	</tr>
