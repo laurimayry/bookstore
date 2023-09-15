@@ -1,5 +1,6 @@
 package com.example.bookstore.web;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +10,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.bookstore.domain.Book;
 import com.example.bookstore.domain.BookRepository;
+import com.example.bookstore.domain.Category;
+import com.example.bookstore.domain.CategoryRepository;
+
 
 @Controller
 public class BookController {
 
 	@Autowired
 	private BookRepository repository;
+	
+	@Autowired
+	private CategoryRepository grepository; 
 
 	//BOOK CONTROLLER
 	
@@ -33,6 +41,7 @@ public class BookController {
 	@RequestMapping(value = "/add")
 	public String addBook(Model model) {
 		model.addAttribute("book", new Book());
+    	model.addAttribute("category", grepository.findAll());
 		return "addbook";
 	}
 
@@ -60,9 +69,14 @@ public class BookController {
 	public String editBook(@PathVariable("id") Long Id, Model model) {
 
 		Optional<Book> optionalBook = repository.findById(Id);
+    	
+
 		if (optionalBook.isPresent()) {
 			Book book = optionalBook.get();
-			model.addAttribute("book", book);
+			model.addAttribute("book", book);		
+	    	model.addAttribute("categories", grepository.findAll());
+
+
 			return "editbook";
 		} else {
 
@@ -76,12 +90,16 @@ public class BookController {
 	public String updateBook(@ModelAttribute Book updatedBook) {
 		
 		Book existingBook = repository.findById(updatedBook.getId()).orElse(null);
+
 	    if (existingBook != null) {
 	        // Päivitä kirjan tiedot
 	        existingBook.setAuthor(updatedBook.getAuthor());
 	        existingBook.setTitle(updatedBook.getTitle());
 	        existingBook.setIsbn(updatedBook.getIsbn());
 	        existingBook.setPublicationYear(updatedBook.getPublicationYear());
+	        existingBook.setCategory(updatedBook.getCategory());
+
+
 	        
 	        repository.save(existingBook);
 	        return "redirect:/booklist";
