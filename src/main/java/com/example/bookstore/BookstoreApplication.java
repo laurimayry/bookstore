@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.example.bookstore.domain.CategoryRepository;
+
+
 import com.example.bookstore.domain.Category;
 import com.example.bookstore.domain.Book;
 import com.example.bookstore.domain.BookRepository;
@@ -25,14 +27,21 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner studentDemo(CategoryRepository repository, CategoryRepository grepository) {
+	public CommandLineRunner studentDemo(BookRepository repository, CategoryRepository grepository) {
 		return (args) -> {
-			log.info("save a couple of students");
+			log.info("save a couple of books");
 			grepository.save(new Category("Fantasy"));
 			grepository.save(new Category("Horror"));
 			grepository.save(new Category("Classic"));
+			
+			repository.save(new Book("sddfas", "Lauri", 1, 1, 1, grepository.findByName("Fantasy").get(0)));
+			repository.save(new Book("Katfdafay", "Harry", 1, 1, 1, grepository.findByName("Classic").get(0)));
 
 
+			log.info("fetch all books");
+			for (Book book : repository.findAll()) {
+				log.info(book.toString());
+			}
 		};
 	}
 }

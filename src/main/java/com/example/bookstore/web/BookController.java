@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.bookstore.domain.Book;
 import com.example.bookstore.domain.BookRepository;
 import com.example.bookstore.domain.Category;
 import com.example.bookstore.domain.CategoryRepository;
+
 
 
 @Controller
@@ -41,7 +43,7 @@ public class BookController {
 	@RequestMapping(value = "/add")
 	public String addBook(Model model) {
 		model.addAttribute("book", new Book());
-    	model.addAttribute("category", grepository.findAll());
+    	model.addAttribute("categories", grepository.findAll());
 		return "addbook";
 	}
 
@@ -108,4 +110,15 @@ public class BookController {
 	        return "redirect:/booklist";
 	    }
 }
+	// RESTful service to get all books
+    @RequestMapping(value="/books", method = RequestMethod.GET)
+    public @ResponseBody List<Book> bookListRest() {	
+        return (List<Book>) repository.findAll();
+    }    
+
+	// RESTful service to get books by id
+    @RequestMapping(value="/books/{id}", method = RequestMethod.GET)
+    public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long id) {	
+    	return repository.findById(id);
+    }   
 }
