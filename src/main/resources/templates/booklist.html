@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <title>Booklist</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -7,6 +8,17 @@
 </head>
 <body>
 	<h1>Booklist</h1>
+	
+	<div class="col-md-4">
+		<i>Welcome <b sec:authentication="name"></b>, 
+        your role is <b sec:authentication="principal.authorities"></b>
+        </i>
+	</div>
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>	
     <table>
 		<tr>
 			<th>Author</th>
@@ -14,10 +26,7 @@
 		    <th>Isbn</th>
 		    <th>Year</th>
 		    <th>Category</th>
-		    <th>Action</th> 
-		    
-		    
-		    
+		    <th sec:authorize="hasAuthority('ADMIN')">Action</th> 
 		    
 		</tr>  
     	<tr th:each = "book : ${books}" >
@@ -27,7 +36,7 @@
     		<td th:text="${book.publicationYear}"></td>
     		<td th:text="${book.category.name}"></td> 		
     		
-    		<td>
+    		<td sec:authorize="hasAuthority('ADMIN')">
             <a th:href="@{/delete/{id}(id=${book.id})}">Delete</a>
 			<a th:href="@{/edit/{id}(id=${book.id})}">Edit</a>
 			
@@ -36,7 +45,7 @@
     	</tr>
     	
      </table>    	
-     <a href="/add" class="btn btn-primary">Add Book</a>
+     <a href="/add" class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Add Book</a>
      
 </body>
 </html>
