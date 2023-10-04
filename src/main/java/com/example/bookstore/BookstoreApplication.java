@@ -42,8 +42,8 @@ public class BookstoreApplication {
 			repository.save(new Book("Katfdafay", "Harry", 1, 1, 1, grepository.findByName("Classic").get(0)));
 			
 			// Create users: admin/admin user/user
-						AppUser user1 = new AppUser("user", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "USER");
-						AppUser user2 = new AppUser("admin", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "ADMIN");
+						AppUser user1 = new AppUser("user", "lauri.mayry@gmail.com", "$2a$06$3jYRJrg0ghaaypjZ/.g4SethoeA51ph3UD4kZi9oPkeMTpjKU5uo6", "USER");
+						AppUser user2 = new AppUser("admin", "lauri.admin.mayry@gmail.com", "$2a$10$0MMwY.IQqpsVc1jC8u7IJ.2rT8b0Cd3b3sfIBGV2zfgnPGtT4r0.C", "ADMIN");
 						urepository.save(user1);
 						urepository.save(user2);
 

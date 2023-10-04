@@ -7,6 +7,10 @@ public class SignupForm {
     @NotEmpty
     @Size(min=5, max=30)
     private String username = "";
+    
+    @NotEmpty
+    @Size(min=5, max=30)
+    private String email = "";
 
     @NotEmpty
     @Size(min=7, max=30)
@@ -27,6 +31,14 @@ public class SignupForm {
 		this.username = username;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 	public String getPassword() {
 		return password;
 	}
